@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="im430.MyBatisXmas.dao.MappedSqlSessionChildDAOImpl">
+ 
+ 	<insert id="addChild" parameterType="Child"
+ 		useGeneratedKeys="true" keyProperty="id">
+ 		
+ 		insert into child(name) values (#{name})
+ 		
+ 	</insert>
+ 	
+ 	
+ 	<delete id="deleteChild" parameterType="Child">
+ 	
+ 		delete from child where id=#{id}
+ 	
+ 	</delete>
+ 	
+ 	
+ 	<select id="getAllChild" resultType="Child">
+ 	
+ 		select id, name from child order by name
+ 	
+ 	</select>
+ 	
+ 	<select id="getChildById" resultType="Child" parameterType="int">
+ 	
+ 		select id, name from users where id=#{id}
+ 	
+ 	</select>
+ 
+<!-- معادل جوین اینجا باید بنویسید	<select id="joinedGetAllChild" resultMap="joinedBlogEntryResult">
+ 		select b.id, b.contents, b.timestamp, b.author_id,
+ 		u.login,
+ 		c.id as c_id, c.contents as c_contents
+ 		from blogentries b
+ 		left join users u on b.author_id = u.id
+ 		left join comments c on b.id = c.blogentry_id
+ 		order by timestamp
+ 	</select> -->
+ 
+ </mapper>

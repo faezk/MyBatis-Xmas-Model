@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="im430.MyBatisXmas.dao.MappedSqlSessionGiftDAOImpl">
+ 
+ 	<insert id="addGift" parameterType="Gift"
+ 		useGeneratedKeys="true" keyProperty="id">
+ 		
+ 		insert into Gift(description ) values (#{description })
+ 		
+ 	</insert>
+ 	
+ 	
+ 	<delete id="deleteGift" parameterType="Gift">
+ 	
+ 		delete from description  where id=#{id}
+ 	
+ 	</delete>
+ 	
+ 	
+ 	<select id="getAllGift" resultType="Gift">
+ 	
+ 		select id, description from gift order by id
+ 	
+ 	</select>
+ 	
+ 	<select id="getGiftById" resultType="Gift" parameterType="int">
+ 	
+ 		select id, description from gift where id=#{id}
+ 	
+ 	</select>
+ 	
+ 
+ </mapper>
