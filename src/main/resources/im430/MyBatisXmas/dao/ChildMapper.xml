@@ -31,14 +31,13 @@
  	
  	</select>
  
-<!-- معادل جوین اینجا باید بنویسید	<select id="joinedGetAllChild" resultMap="joinedBlogEntryResult">
- 		select b.id, b.contents, b.timestamp, b.author_id,
- 		u.login,
- 		c.id as c_id, c.contents as c_contents
- 		from blogentries b
- 		left join users u on b.author_id = u.id
- 		left join comments c on b.id = c.blogentry_id
- 		order by timestamp
- 	</select> -->
+  <select id="joinedGetAllChild" resultMap="joinedChildResult">
+         select c.id ,c.name , c.timestamp
+         g.id as g_id
+         from child c
+         left join child c on c.gift_id = g.id
+         left join gift g on c.id = g.child_id
+         order by timestamp
+ 	</select> 
  
  </mapper>
