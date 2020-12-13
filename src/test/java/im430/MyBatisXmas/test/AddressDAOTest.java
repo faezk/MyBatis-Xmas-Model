@@ -21,22 +21,27 @@ import im430.MyBatisXmas.dao.AddressDAO;
 public class AddressDAOTest {
 	
 	@Autowired
-	private AddressDAO AddressDAO;
+	private AddressDAO addressDAO;
+	
 	
 	@Test
-	public void AddressDAOTest() {
+	public void testChildDAO() {
 		
-		Address u1 = new Address();
-		u1.setText("Testtext "+new Date());
+		Address a1 = new Address();
+		a1.setText("TestLogin "+new Date());
 		
-		int len1 = AddressDAO.getAllAddress().size();
-		AddressDAO.addAddress(u1);
-		assertEquals(len1+1, AddressDAO.getAllAddress().size());
+		int len1 = addressDAO.getAllAddress().size();
+		addressDAO.addAddress(a1);
+		assertEquals(len1+1, addressDAO.getAllAddress().size());
 		
+		Address a2 = addressDAO.getAddress(a1.getId());
+		assertEquals(a1.getText(), a2.getText());
+		assertEquals(a1, a2);
 		
-		AddressDAO.removeAddress(u1);
-		assertEquals(len1, AddressDAO.getAllAddress().size());
+		addressDAO.removeAddress(a1);
+		assertEquals(len1, addressDAO.getAllAddress().size());
 		
 	}
+	
 
 }
