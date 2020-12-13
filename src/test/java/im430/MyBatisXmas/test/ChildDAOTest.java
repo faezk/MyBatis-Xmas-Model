@@ -17,8 +17,6 @@ import im430.MyBatisXmas.business.Gift;
 import im430.MyBatisXmas.business.Address;
 import im430.MyBatisXmas.dao.ChildrenDAO;
 import im430.MyBatisXmas.dao.ChildWithGiftsDAO;
-//import im430.simpleblog.dao.MemoryBlogEntryDAOImpl;
-//import im430.MyBatisXmas.dao.MySqlChildDAOImpl;
 import im430.MyBatisXmas.dao.AddressDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,27 +26,81 @@ import im430.MyBatisXmas.dao.AddressDAO;
 public class ChildDAOTest {
 	
 	@Autowired
-	private ChildWithGiftsDAO ChildDAO;
+	private ChildWithGiftsDAO childDAO;
+	
+	@Autowired
+	private AddressDAO addressDAO;
 	
 	
-	@Test
+	//@Test
 	public void testChildDAO() {
 		
 		Child e1 = new Child();
-		e1.setName("Test Entry "+new Date());
+		e1.setGifts("Test Entry "+new Date());
 		
-		int len1 = ChildDAO.getAllChild().size();
-		ChildDAO.addChild(e1);
-		int len2 = ChildDAO.getAllChild().size();
+		int len1 = childDAO.getAllChild().size();
+		childDAO.addChild(e1);
+		int len2 = childDAO.getAllChild().size();
 		
 		assertEquals(len1+1, len2);
 		
-		//Child e2 = ChildDAO.getChild(e1.getId());
-		//assertEquals(e1.getContents(),e2.getContents());
-		//assertEquals(e1,e2);
+		Child e2 = childDAO.getChild(e1.getId());
+		assertEquals(e1.getGifts(),e2.getGifts());
+		assertEquals(e1,e2);
 		
-		ChildDAO.removeChild(e1);
-		assertEquals(len1, ChildDAO.getAllChild().size());
+		childDAO.removeChild(e1);
+		assertEquals(len1, childDAO.getAllChild().size());
+		
+	}
+	
+	
+	@Test
+	public void shouldAddAddressToBlogEntry() {
+		
+		Address a1 = new Address();
+		a1.setText("TestAddress "+new Date());
+		addressDAO.addAddress(a1);
+		
+		Child e1 = new Child();
+		e1.setGifts("Test Entry "+new Date());
+		e1.setaddress(a1);
+		
+		childDAO.addChild(e1);
+		Child e2 = childDAO.getChild(e1.getId());
+		
+		assertEquals(a1, e1.getaddress());
+		assertEquals(e1.getaddress(),e2.getaddress());
+				
+		
+	}
+	
+	
+	@Test
+	public void shouldAddAndRemoveGift() {
+		
+		Address a1 = new Address();
+		a1.setText("Testlogin "+new Date());
+		addressDAO.addAddress(a1);
+		
+		Child e1 = new Child();
+		e1.setGifts("Test Entry "+new Date());
+		e1.setaddress(a1);
+		
+		childDAO.addChild(e1);
+		
+		Gift  g1 = new Gift();
+		g1.setGifts("Test Comment "+ new Date());
+		
+		int len1 = e1.getGifts().size();
+		childDAO.addGift(e1, g1);
+		
+		assertEquals(len1+1, e1.getGifts().size());
+		assertEquals(len1+1, childDAO.getChild(e1.getId()).getGifts().size());
+		
+	//	blogEntryDAO.removeComment(e1, c1);
+		
+	//	assertEquals(len1, e1.getComments().size());
+	//	assertEquals(len1, blogEntryDAO.getBlogEntry(e1.getId()).getComments().size());
 		
 	}
 	
