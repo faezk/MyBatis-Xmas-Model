@@ -39,5 +39,41 @@
          left join gift g on c.id = g.child_id
          order by timestamp
  	</select> 
+  
+  <insert id="addGift" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="gift.id">
+ 		    insert into gifts(description, child_id) values (#{gift.description}, #{childId})
+ 	</insert>
+ 	
+ 	<delete id="deleteGift" parameterType="Gift">
+ 	   	delete from gift where id=#{id}
+ 	</delete>
+ 	
+ 	<select id="getGiftById" resultType="Gift" parameterType="int">
+ 	   	select id, description from gift where child_id=#{id}
+ 	</select>
+ 	
+ 	<resultMap id="ChildResult" type="Child">
+     <id property="id" column="id" />
+     <result property="gifts" column="gifts" />
+     <result property="timestamp" column="timestamp" />
+     <association property="address" javaType="Address" 
+       select="im430.simpleblog.dao.MappedSqlSessionAddressDAOImpl.getUserById"
+       column="address_id" />
+     <collection property="gifts" javaType="ArrayList" ofType="Gift"
+       select="getGifts" column="id" />
+ 	</resultMap>
+ 	
+ 	<resultMap id="joinedChildResult" type="Child">
+      <id property="id" column="id" />
+     <result property="gifts" column="gifts" />
+     <result property="timestamp" column="timestamp" />
+     <association property="address" javaType="Address">
+      <id property="id" column="address_id" />
+     </association>
+     <collection property="gifts" javaType="ArrayList" ofType="Gift">
+      <id property="id" column="g_id" />
+         <result property="gifts" column="g_description" />
+     </collection>
+ 	</resultMap>
  
  </mapper>
